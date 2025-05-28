@@ -1,3 +1,7 @@
 langchain
 langchain_community
 pypdf
+langchain-groq
+dotenv
+pymongo
+pymongo[srv]==3.12

@@ -3,3 +3,4 @@ backend/.venv
 
 backend/data
 backend/.env
+backend/logs

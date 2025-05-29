@@ -1,5 +1,7 @@
 import json
 import os
+import shutil
+import uuid
 from pathlib import Path
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_groq import ChatGroq
@@ -158,3 +160,22 @@ async def process_cv_to_json(file_name=None, folder_path=Path("data")):
 
     logger.info(f"Successfully parsed {len(parsed_jsons)} CV(s) to JSON.")
     return parsed_jsons
+
+
+def save_pdf(pdf_file, folder_path=Path("data")):
+    """
+    Save an uploaded PDF file using a UUID filename to the specified folder.
+
+    :param pdf_file: The uploaded PDF file.
+    :param folder_path: Optional, Directory where the file should be saved.
+    """
+    folder_path.mkdir(parents=True, exist_ok=True)
+
+    # Generate a unique filename with the same .pdf extension
+    filename = f"{uuid.uuid4()}.pdf"
+    save_path = folder_path / filename
+
+    with save_path.open("wb") as buffer:
+        shutil.copyfileobj(pdf_file.file, buffer)
+
+    return filename

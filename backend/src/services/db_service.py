@@ -5,7 +5,7 @@ from pymongo.server_api import ServerApi
 
 from dotenv import load_dotenv
 
-from backend.src import logger
+from src import logger
 
 load_dotenv()
 

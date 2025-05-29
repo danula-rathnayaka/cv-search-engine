@@ -7,7 +7,7 @@ from langchain_community.document_loaders import PyPDFLoader
 from langchain_groq import ChatGroq
 from langchain.prompts import PromptTemplate
 
-from backend.src import logger
+from src import logger
 
 from dotenv import load_dotenv
 

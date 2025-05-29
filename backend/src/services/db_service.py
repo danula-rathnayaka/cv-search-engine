@@ -36,18 +36,22 @@ class DbService:
         Insert multiple candidate documents.
 
         :param candidate: List of candidate dictionaries to insert
+        :return: List of inserted candidate IDs
         """
         result = self.collection.insert_many(candidate)
         logger.info(f"Inserted {len(result.inserted_ids)} documents")
+        return result.inserted_ids
 
     def insert_one_candidate(self, candidate):
         """
         Insert a single candidate document.
 
         :param candidate: Dictionary representing a candidate
+        :return: Candidate ID
         """
         result = self.collection.insert_one(candidate)
         logger.info(f"Inserted document with id: {result.inserted_id}")
+        return result.inserted_id
 
     def get_all_candidates(self):
         """

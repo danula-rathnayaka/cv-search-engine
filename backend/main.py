@@ -1,5 +1,6 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException, status
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 from src.utils.common import json_to_text, extract_from_json
 from src import logger
@@ -8,6 +9,19 @@ from src.services.embedding_service import get_embedding
 from src.services.pdf_service import save_pdf, process_cv_to_json
 
 app = FastAPI()
+
+origins = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 db_service: DbService
 

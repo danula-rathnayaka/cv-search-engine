@@ -1,10 +1,19 @@
-import { Button } from "@/components/ui/button";
+import { ThemeProvider } from "./components/theme-provider";
+import { Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
+import Home from "./pages/Home";
 
 function App() {
   return (
-    <div className="min-h-screen bg-neutral-950 text-white">
-      <Button>Click me</Button>
-    </div>
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <div className="mt-20">
+        <Router>
+          <Routes>
+            <Route path="/" element={<Home />} />
+          </Routes>
+        </Router>
+      </div>
+    </ThemeProvider>
   );
 }
 

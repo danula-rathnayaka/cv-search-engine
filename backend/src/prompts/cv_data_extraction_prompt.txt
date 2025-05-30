@@ -41,3 +41,5 @@ Output Format (JSON keys and structure):
   "availability": "",
   "remote_or_relocation": ""
 }}
+
+If a data field is not found in the CV, set its value to Not provided

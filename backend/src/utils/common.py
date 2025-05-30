@@ -30,20 +30,39 @@ def extract_from_json(results):
     cv_summaries = []
     for cv in results:
         summary = {
-            "full_name": cv["full_name"],
-            "current_title": cv["current_title"],
-            "current_employer": cv["current_employer"],
-            "years_of_experience": cv["years_of_experience"],
-            "email": cv["contact_info"]["email"],
-            "phone": cv["contact_info"]["phone"],
-            "location": cv["contact_info"]["location"],
-            "skills": cv["skills"],
-            "work_experience": [{
-                "job_title": exp["job_title"],
-                "company": exp["company"],
-                "summary": exp["summary"]
-            } for exp in cv["work_experience"]]
+            "full_name": cv.get("full_name", ""),
+            "current_title": cv.get("current_title", ""),
+            "current_employer": cv.get("current_employer", ""),
+            "years_of_experience": cv.get("years_of_experience", ""),
+            "availability": cv.get("availability", ""),
+            "remote_or_relocation": cv.get("remote_or_relocation", ""),
+            "contact_info": {
+                "email": cv.get("contact_info", {}).get("email", ""),
+                "phone": cv.get("contact_info", {}).get("phone", ""),
+                "location": cv.get("contact_info", {}).get("location", ""),
+            },
+            "skills": cv.get("skills", []),
+            "certifications": cv.get("certifications", []),
+            "languages": cv.get("languages", []),
+            "work_experience": [
+                {
+                    "job_title": exp.get("job_title", ""),
+                    "company": exp.get("company", ""),
+                    "start_date": exp.get("start_date", ""),
+                    "end_date": exp.get("end_date", ""),
+                    "summary": exp.get("summary", ""),
+                }
+                for exp in cv.get("work_experience", [])
+            ],
+            "education": [
+                {
+                    "degree": edu.get("degree", ""),
+                    "field_of_study": edu.get("field_of_study", ""),
+                    "institution": edu.get("institution", ""),
+                    "graduation_year": edu.get("graduation_year", ""),
+                }
+                for edu in cv.get("education", [])
+            ],
         }
         cv_summaries.append(summary)
-
     return cv_summaries

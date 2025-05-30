@@ -34,10 +34,10 @@ async def startup_event():
 
 
 @app.get("/search_cv")
-async def search_cv(query: str):
+async def search_cv(query: str, num_of_results: int):
     try:
         query_embedding = get_embedding(query)
-        results = db_service.vector_search(query_embedding)
+        results = db_service.vector_search(query_embedding, num_of_results)
 
         return {"status": "Successfully processed",
                 "results": extract_from_json(results)}

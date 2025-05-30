@@ -1,19 +1,18 @@
+// DropdownSelector.tsx
 import { dropdownArrow } from "@/assets";
 import {
   DropdownMenu,
   DropdownMenuItem,
   DropdownMenuTrigger,
-  DropdownMenuContent, // Import DropdownMenuContent
+  DropdownMenuContent,
 } from "./ui/dropdown-menu";
-import { useState } from "react";
 
-const DropdownSelector = () => {
-  const [selected, setSelected] = useState<number>(3);
+type DropdownSelectorProps = {
+  selected: number;
+  onSelect: (value: number) => void;
+};
 
-  const handleSelect = (value: number) => {
-    setSelected(value);
-  };
-
+const DropdownSelector = ({ selected, onSelect }: DropdownSelectorProps) => {
   return (
     <div className="w-25">
       <DropdownMenu>
@@ -25,10 +24,11 @@ const DropdownSelector = () => {
         </DropdownMenuTrigger>
 
         <DropdownMenuContent className="rounded-md border">
-          <DropdownMenuItem onClick={() => handleSelect(1)}>1</DropdownMenuItem>
-          <DropdownMenuItem onClick={() => handleSelect(2)}>2</DropdownMenuItem>
-          <DropdownMenuItem onClick={() => handleSelect(3)}>3</DropdownMenuItem>
-          <DropdownMenuItem onClick={() => handleSelect(4)}>4</DropdownMenuItem>
+          {[1, 2, 3, 4].map((num) => (
+            <DropdownMenuItem key={num} onClick={() => onSelect(num)}>
+              {num}
+            </DropdownMenuItem>
+          ))}
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

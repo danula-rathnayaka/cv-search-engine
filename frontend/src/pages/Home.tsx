@@ -9,11 +9,36 @@ import { useState } from "react";
 const Home = () => {
   const [cvs, setCvs] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [query, setQuery] = useState("");
+  const [numOfResults, setNumOfResults] = useState(3);
 
   const fetchCVs = async () => {
+    if (query === "") {
+      alert("Query can not be empty.");
+      return;
+    }
+
     setIsLoading(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 5000));
+      const response = await fetch(
+        `http://127.0.0.1:8000/search_cv?query=${encodeURIComponent(
+          query
+        )}&num_of_results=${encodeURIComponent(numOfResults)}`
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      setCvs(data.results);
+
+      console.log("Fetched CVs:", data.results);
+    } catch (error) {
+      console.error("Error fetching CVs:", error);
+    } finally {
+      setIsLoading(false);
+    }
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
     } finally {
       setIsLoading(false);
     }
@@ -31,13 +56,21 @@ const Home = () => {
           Enter the details below to search for candidates CVs.
         </p>
 
-        <Textarea placeholder="e.g. React Developer" className="w-full" />
+        <Textarea
+          placeholder="e.g. React Developer"
+          className="w-full"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
 
         <div className="flex items-center gap-4">
           <Button className="w-75" onClick={() => fetchCVs()}>
             Find CVs
           </Button>{" "}
-          <DropdownSelector />
+          <DropdownSelector
+            selected={numOfResults}
+            onSelect={setNumOfResults}
+          />
         </div>
       </div>
 

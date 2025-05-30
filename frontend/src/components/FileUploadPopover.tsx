@@ -32,7 +32,7 @@ const FileUploadPopover = () => {
     formData.append("file", selectedFile);
 
     try {
-      const response = await fetch("/api/upload", {
+      const response = await fetch("http://127.0.0.1:8000/upload_pdf", {
         method: "POST",
         body: formData,
       });

@@ -6,7 +6,7 @@ import Home from "./pages/Home";
 function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <div className="mt-20">
+      <div className="mt-10">
         <Router>
           <Routes>
             <Route path="/" element={<Home />} />

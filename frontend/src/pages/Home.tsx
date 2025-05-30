@@ -1,10 +1,10 @@
 import { loading } from "@/assets";
 import CvCard from "@/components/CvCard";
 import DropdownSelector from "@/components/DropdownSelector";
+import FileUploadPopover from "@/components/FileUploadPopover";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const Home = () => {
   const [cvs, setCvs] = useState<any>([]);
@@ -21,9 +21,7 @@ const Home = () => {
 
   return (
     <div className="flex flex-col items-center justify-center px-4">
-      <Button className="mb-6 font-medium text-sm opacity-80">
-        Add New CV
-      </Button>
+      <FileUploadPopover />
 
       <div className="w-full max-w-md bg-neutral-900 rounded-lg shadow-md p-6 space-y-4 border-2">
         <h1 className="text-xl font-semibold text-gray-800 dark:text-white">

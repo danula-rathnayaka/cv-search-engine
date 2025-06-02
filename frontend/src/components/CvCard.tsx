@@ -36,22 +36,22 @@ const CvCard = ({
         </CardHeader>
 
         <CardContent className="space-y-4">
-          <div className="text-sm">
+          <div className="text-sm text-neutral-300">
             <strong>Email:</strong> {cv.contact_info.email.toLocaleLowerCase()}
           </div>
-          <div className="text-sm">
+          <div className="text-sm text-neutral-300">
             <strong>Phone:</strong> {cv.contact_info.phone}
           </div>
-          <div className="text-sm">
+          <div className="text-sm text-neutral-300">
             <strong>Location:</strong> {cv.contact_info.location}
           </div>
-          <div className="text-sm">
+          <div className="text-sm text-neutral-300">
             <strong>Experience:</strong> {cv.years_of_experience} years
           </div>
-          <div className="text-sm">
+          <div className="text-sm text-neutral-300">
             <strong>Availability:</strong> {cv.availability}
           </div>
-          <div className="text-sm">
+          <div className="text-sm text-neutral-300">
             <strong>Remote/Relocation:</strong> {cv.remote_or_relocation}
           </div>
         </CardContent>

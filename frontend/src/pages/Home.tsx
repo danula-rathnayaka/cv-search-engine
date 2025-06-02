@@ -1,6 +1,7 @@
 import { loading } from "@/assets";
 import CvCard from "@/components/CvCard";
 import DropdownSelector from "@/components/DropdownSelector";
+import FileUploadPopover from "@/components/FileUploadPopover";
 import TagInput from "@/components/TagInput";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -98,6 +99,7 @@ const Home = () => {
             />
 
             <div className="flex items-center justify-between mt-4">
+              <FileUploadPopover />
               <div className="flex items-center">
                 <span className="text-white whitespace-nowrap mr-3">
                   Results:
@@ -108,7 +110,6 @@ const Home = () => {
                   options={[4, 8, 16, 20]}
                 />
               </div>
-
               <Button className="px-10 py-5" onClick={fetchCVs}>
                 Find CVs
               </Button>

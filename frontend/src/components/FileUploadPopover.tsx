@@ -42,12 +42,10 @@ const FileUploadPopover = () => {
       }
 
       alert("File uploaded successfully!");
-      setIsAddCv(false);
     } catch (error) {
       console.error("Upload error:", error);
       alert("There was an error uploading your file.");
     } finally {
-      setIsUploading(false);
       setSelectedFile(null);
       setFileName("No file chosen");
     }
@@ -57,10 +55,10 @@ const FileUploadPopover = () => {
     <Popover>
       <PopoverTrigger>
         <Button
-          className="mb-6 font-medium text-sm opacity-80 hover:opacity-100 transition-all ease-in-out duration-300 flex items-end justify-end gap-2"
+          className="font-medium text-sm transition-all ease-in-out duration-300 flex text-center gap-2 h-10 w-35"
           onClick={() => setIsAddCv(!isAddCv)}
         >
-          {isAddCv ? "Search CV" : "Upload CV"}
+          {isAddCv ? "Close" : "Upload CV"}
         </Button>
       </PopoverTrigger>
 

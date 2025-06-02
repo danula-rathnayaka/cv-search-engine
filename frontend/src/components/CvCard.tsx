@@ -19,7 +19,7 @@ const CvCard = ({ cv }: { cv: CvType }) => {
       <Card className="w-[300px] bg-neutral-800 text-white">
         <CardHeader>
           <CardTitle className="text-lg font-semibold">
-            {cv.full_name}
+            {cv.full_name.toUpperCase()}
           </CardTitle>
           <CardDescription className="text-sm">
             {cv.current_title} at {cv.current_employer}
@@ -28,7 +28,7 @@ const CvCard = ({ cv }: { cv: CvType }) => {
 
         <CardContent className="space-y-4">
           <div className="text-sm">
-            <strong>Email:</strong> {cv.contact_info.email}
+            <strong>Email:</strong> {cv.contact_info.email.toLocaleLowerCase()}
           </div>
           <div className="text-sm">
             <strong>Phone:</strong> {cv.contact_info.phone}
@@ -47,8 +47,19 @@ const CvCard = ({ cv }: { cv: CvType }) => {
           </div>
         </CardContent>
 
-        <CardFooter>
-          <Button onClick={() => setShowModal(true)}>View Details</Button>
+        <CardFooter className="mt-auto justify-between">
+          <Button
+            className="w-28 opacity-80 hover:opacity-100"
+            onClick={() => setShowModal(true)}
+          >
+            View Details
+          </Button>
+          <Button
+            className="w-28 opacity-80 hover:opacity-100"
+            onClick={() => setShowModal(true)}
+          >
+            Analyse
+          </Button>
         </CardFooter>
       </Card>
 

@@ -15,7 +15,9 @@ const CandidateDetailsPopup = ({ cv, onClose }: CandidateDetailsPopupProps) => {
         <div className="flex gap-12 flex-1 overflow-hidden">
           {/* Left Column */}
           <div className="flex-1 flex flex-col space-y-6 overflow-y-auto pr-6 scrollbar scrollbar-thumb-gray-700 scrollbar-track-gray-900 scrollbar-thin">
-            <h2 className="text-3xl font-bold truncate">{cv.full_name}</h2>
+            <h2 className="text-3xl font-bold truncate">
+              {cv.full_name.toUpperCase()}
+            </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 text-sm leading-relaxed">
               <p>
@@ -28,7 +30,7 @@ const CandidateDetailsPopup = ({ cv, onClose }: CandidateDetailsPopupProps) => {
               </p>
               <p>
                 <strong className="text-gray-300">Email:</strong>{" "}
-                {cv.contact_info.email}
+                {cv.contact_info.email.toLocaleLowerCase()}
               </p>
               <p>
                 <strong className="text-gray-300">Phone:</strong>{" "}

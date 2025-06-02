@@ -1,4 +1,3 @@
-// DropdownSelector.tsx
 import { dropdownArrow } from "@/assets";
 import {
   DropdownMenu,
@@ -7,26 +6,37 @@ import {
   DropdownMenuContent,
 } from "./ui/dropdown-menu";
 
-type DropdownSelectorProps = {
-  selected: number;
-  onSelect: (value: number) => void;
+type DropdownSelectorProps<T> = {
+  selected: T;
+  onSelect: (value: T) => void;
+  options: T[];
+  className?: string;
 };
 
-const DropdownSelector = ({ selected, onSelect }: DropdownSelectorProps) => {
+const DropdownSelector = <T extends string | number>({
+  selected,
+  onSelect,
+  options,
+  className = "",
+}: DropdownSelectorProps<T>) => {
   return (
-    <div className="w-25">
+    <div className={`w-full ${className}`}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <button className="w-full p-[5.5px] border rounded-md text-left flex gap-4">
-            <div className="pl-3">{selected}</div>
-            <img src={dropdownArrow} width={24} height={24} />
+          <button className="w-full py-2.5 px-3 border rounded-md text-left flex justify-between items-center bg-neutral-800 text-white text-sm">
+            <span className="mr-3">{selected || "Select"}</span>
+            <img src={dropdownArrow} alt="dropdown" width={18} height={18} />
           </button>
         </DropdownMenuTrigger>
 
-        <DropdownMenuContent className="rounded-md border">
-          {[1, 2, 3, 4].map((num) => (
-            <DropdownMenuItem key={num} onClick={() => onSelect(num)}>
-              {num}
+        <DropdownMenuContent className="rounded-md border bg-neutral-800 text-white text-sm">
+          {options.map((option) => (
+            <DropdownMenuItem
+              key={option.toString()}
+              onClick={() => onSelect(option)}
+              className="cursor-pointer hover:bg-neutral-700 px-3 py-1"
+            >
+              {option}
             </DropdownMenuItem>
           ))}
         </DropdownMenuContent>

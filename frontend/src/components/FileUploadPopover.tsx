@@ -57,7 +57,7 @@ const FileUploadPopover = () => {
     <Popover>
       <PopoverTrigger>
         <Button
-          className="mb-6 font-medium text-sm opacity-80 hover:opacity-100 transition-all ease-in-out duration-300 flex items-center gap-2"
+          className="mb-6 font-medium text-sm opacity-80 hover:opacity-100 transition-all ease-in-out duration-300 flex items-end justify-end gap-2"
           onClick={() => setIsAddCv(!isAddCv)}
         >
           {isAddCv ? "Search CV" : "Upload CV"}

@@ -1,7 +1,12 @@
-from fastapi import FastAPI, File, UploadFile, HTTPException, status
+from typing import List
+from urllib.parse import unquote
+
+from fastapi import FastAPI, File, UploadFile, HTTPException, status, Request
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi import Query
 
+from src.services.cv_analyse_service import analyse_cv_to_json
 from src.utils.common import json_to_text, extract_from_json
 from src import logger
 from src.services.db_service import DbService
@@ -34,9 +39,41 @@ async def startup_event():
 
 
 @app.get("/search_cv")
-async def search_cv(query: str, num_of_results: int):
+async def search_cv(
+    query: str,
+    num_of_results: int,
+    requiredSkills: List[str] = Query([]),
+    softSkills: List[str] = Query([]),
+    languages: List[str] = Query([]),
+    experience: str = "",
+    education: str = "",
+    location: str = ""
+):
     try:
-        query_embedding = get_embedding(query)
+
+        parts = [query]
+
+        requiredSkills = [skill.strip() for skill in requiredSkills if skill.strip()]
+        softSkills = [skill.strip() for skill in softSkills if skill.strip()]
+        languages = [lang.strip() for lang in languages if lang.strip()]
+
+        if requiredSkills:
+            parts.append("Required skills: " + ", ".join(requiredSkills))
+        if softSkills:
+            parts.append("Soft skills: " + ", ".join(softSkills))
+        if languages:
+            parts.append("Languages: " + ", ".join(languages))
+        if experience.strip() != "":
+            parts.append(f"Experience: {experience.strip()}")
+        if education.strip() != "":
+            parts.append(f"Education: {education.strip()}")
+        if location.strip() != "":
+            parts.append(f"Location: {location.strip()}")
+
+        full_query = " | ".join(parts)
+
+        query_embedding = get_embedding(full_query)
+
         results = db_service.vector_search(query_embedding, num_of_results)
 
         return {"status": "Successfully processed",
@@ -75,3 +112,23 @@ async def upload_pdf(file: UploadFile = File(...)):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             content={"message": "File processing failed"}
         )
+
+
+@app.post("/analyse_cv")
+async def analyse_cv(request: Request):
+    body = await request.body()
+    body_str = body.decode('utf-8')
+    decoded_body_str = unquote(body_str)
+
+    try:
+        cv_str = decoded_body_str.split("&")[0].split("=")[1]
+        job_req_str = decoded_body_str.split("&")[1].split("=")[1]
+    except IndexError:
+        return {"status": "Failed", "message": "Invalid data format"}
+
+    analyse_json = await analyse_cv_to_json(cv_str, job_req_str)
+
+    return {
+        "status": "Analysis successful",
+        "results": analyse_json
+    }

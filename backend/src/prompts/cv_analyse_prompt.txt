@@ -1,0 +1,58 @@
+You are given a candidate's CV and a job requirement. Your task is to assess the fit between the candidate and the job description.
+Output Format (JSON keys and structure):
+{{
+  "strong_areas": [
+    {{
+      "skill_or_experience": "",
+      "rating": "",
+      "reason": ""
+    }}
+    ...
+  ],
+  "weak_areas": [
+    {{
+      "skill_or_experience": "",
+      "rating": "",
+      "reason": ""
+    }}
+    ...
+  ],
+  "overall_quality_score": "",
+  "detailed_scoring": {{
+    "skills": "",
+    "experience": "",
+    "education": "",
+    "languages": "",
+    "role_fit": ""
+  }},
+  "role_fit": ""
+}}
+Field Details:
+
+1. strong_areas: A list of key strengths from the CV that align with the job requirement. Each item should contain:
+   - skill_or_experience: The name of the skill or experience.
+   - rating: A numerical score (out of 100) indicating the strength of the skill/experience.
+   - reason: A short explanation of why this skill/experience is considered a strength in relation to the job requirement.
+
+2. weak_areas: A list of key weaknesses or missing elements in the CV relative to the job requirement. Each item should contain:
+   - skill_or_experience: The name of the missing or weak skill/experience.
+   - rating: A numerical score (out of 100) indicating how much the candidate is lacking in that area.
+   - reason: A short explanation of why this is a weakness in relation to the job requirement.
+
+3. overall_quality_score: A numerical score (out of 100) summarizing the candidate’s overall fit for the role based on the CV and job requirement.
+
+4. detailed_scoring: A breakdown of individual scores for the following aspects, each scored out of 100:
+   - skills: Based on the relevance of the candidate’s skills to the job requirement.
+   - experience: Based on the relevance of the candidate's work experience to the job description.
+   - education: Based on how well the candidate’s educational background fits the job requirement.
+   - languages: Based on language skills, if relevant.
+   - role_fit: Based on the overall alignment of the candidate with the role and job description.
+
+5. role_fit: A description of the role the candidate is most suited for based on their CV and the job requirements. Provide a brief justification for why the candidate fits the role, taking into account their skills, experience, education, and other factors.
+
+Candidate CV: {cv}
+Job Requirements: {job_req}
+
+Important Notes:
+- Please strictly follow the provided JSON structure. Do not include any additional commentary, explanations, or text outside the JSON object.
+- Output only the JSON object without any extra formatting.

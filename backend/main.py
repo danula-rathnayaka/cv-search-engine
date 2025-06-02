@@ -6,11 +6,11 @@ from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import Query
 
+from src.services.embedding_service import EmbeddingService
 from src.services.cv_analyse_service import analyse_cv_to_json
 from src.utils.common import json_to_text, extract_from_json
 from src import logger
 from src.services.db_service import DbService
-from src.services.embedding_service import get_embedding
 from src.services.pdf_service import save_pdf, process_cv_to_json
 
 app = FastAPI()
@@ -29,25 +29,27 @@ app.add_middleware(
 )
 
 db_service: DbService
+embedding_service: EmbeddingService
 
 
 @app.on_event("startup")
 async def startup_event():
-    global db_service
+    global db_service, embedding_service
     db_service = DbService()
-    logger.info("Initializing DB Service")
+    embedding_service = EmbeddingService()
+    logger.info("Initializing DB Service and Embedding Service")
 
 
 @app.get("/search_cv")
 async def search_cv(
-    query: str,
-    num_of_results: int,
-    requiredSkills: List[str] = Query([]),
-    softSkills: List[str] = Query([]),
-    languages: List[str] = Query([]),
-    experience: str = "",
-    education: str = "",
-    location: str = ""
+        query: str,
+        num_of_results: int,
+        requiredSkills: List[str] = Query([]),
+        softSkills: List[str] = Query([]),
+        languages: List[str] = Query([]),
+        experience: str = "",
+        education: str = "",
+        location: str = ""
 ):
     try:
 
@@ -72,7 +74,7 @@ async def search_cv(
 
         full_query = " | ".join(parts)
 
-        query_embedding = get_embedding(full_query)
+        query_embedding = embedding_service.get_embedding(full_query)
 
         results = db_service.vector_search(query_embedding, num_of_results)
 
@@ -99,7 +101,7 @@ async def upload_pdf(file: UploadFile = File(...)):
 
         candidate_id = db_service.insert_one_candidate(json_cv_list[0])
 
-        embeddings = get_embedding(json_to_text(json_cv_list[0]))
+        embeddings = embedding_service.get_embedding(json_to_text(json_cv_list[0]))
         db_service.add_or_update_embedding(candidate_id, embeddings)
 
         return {"filename": file.filename, "status": "Successfully processed"}

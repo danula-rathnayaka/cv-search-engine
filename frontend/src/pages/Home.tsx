@@ -1,7 +1,6 @@
 import { loading } from "@/assets";
 import CvCard from "@/components/CvCard";
 import DropdownSelector from "@/components/DropdownSelector";
-import FileUploadPopover from "@/components/FileUploadPopover";
 import TagInput from "@/components/TagInput";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,7 +11,7 @@ const Home = () => {
   const [cvs, setCvs] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [query, setQuery] = useState<string>("");
-  const [numOfResults, setNumOfResults] = useState<number>(3);
+  const [numOfResults, setNumOfResults] = useState<number>(4);
 
   const [requiredSkills, setRequiredSkills] = useState<string[]>([]);
   const [softSkills, setSoftSkills] = useState<string[]>([]);
@@ -207,7 +206,18 @@ const Home = () => {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 lg:gap-40 mt-10 mb-10">
               {cvs.map((element: any, index: number) => (
-                <CvCard key={index} cv={element} />
+                <CvCard
+                  key={index}
+                  cv={element}
+                  jobRequirement={{
+                    requiredSkills,
+                    softSkills,
+                    languages,
+                    experience: experience ? parseInt(experience) : null,
+                    education,
+                    location,
+                  }}
+                />
               ))}
             </div>
           )}

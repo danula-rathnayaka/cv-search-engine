@@ -10,9 +10,18 @@ import {
 import { Button } from "./ui/button";
 import type { CvType } from "@/types/cv";
 import CandidateDetailsPopup from "./CandidateDetailsPopup";
+import AnalyseCandidatePopup from "./AnalyseCandidatePopup";
+import type { JobRequirement } from "@/types/JobRequirement";
 
-const CvCard = ({ cv }: { cv: CvType }) => {
-  const [showModal, setShowModal] = useState(false);
+const CvCard = ({
+  cv,
+  jobRequirement,
+}: {
+  cv: CvType;
+  jobRequirement: JobRequirement;
+}) => {
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
+  const [showAnalyseModal, setShowAnalyseModal] = useState(false);
 
   return (
     <>
@@ -50,21 +59,31 @@ const CvCard = ({ cv }: { cv: CvType }) => {
         <CardFooter className="mt-auto justify-between">
           <Button
             className="w-28 opacity-80 hover:opacity-100"
-            onClick={() => setShowModal(true)}
+            onClick={() => setShowDetailsModal(true)}
           >
             View Details
           </Button>
           <Button
             className="w-28 opacity-80 hover:opacity-100"
-            onClick={() => setShowModal(true)}
+            onClick={() => setShowAnalyseModal(true)}
           >
             Analyse
           </Button>
         </CardFooter>
       </Card>
 
-      {showModal && (
-        <CandidateDetailsPopup cv={cv} onClose={() => setShowModal(false)} />
+      {showDetailsModal && (
+        <CandidateDetailsPopup
+          cv={cv}
+          onClose={() => setShowDetailsModal(false)}
+        />
+      )}
+      {showAnalyseModal && (
+        <AnalyseCandidatePopup
+          cv={cv}
+          jobRequirement={jobRequirement}
+          onClose={() => setShowAnalyseModal(false)}
+        />
       )}
     </>
   );
